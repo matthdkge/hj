@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>학과별 복합 다중게시판 시스템 (공지 및 의견 공유 플랫폼)</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- 1. 상단 5대 역할 빠른 전환 및 영구 저장 상태 바 -->
+  <div class="role-switcher-bar">
+    <div class="role-switcher-left" id="quickRoleSwitcher">
+      <!-- js/app.js에서 5가지 역할 + 타 학과 테스트 계정 버튼 렌더링 -->
+    </div>
+    <div class="persistence-indicator">
+      <span class="persistence-dot"></span>
+      <span id="persistenceStatusText">영구 저장소 활성화됨 (껐다 켜도 데이터 유지)</span>
+      <button class="role-switch-btn" onclick="App.exportBackup()" title="현재 모든 데이터를 파일로 백업">💾 백업 저장</button>
+      <label class="role-switch-btn" style="cursor:pointer;" title="백업된 JSON 파일 불러오기">
+        📂 백업 복원
+        <input type="file" id="importBackupInput" accept=".json" style="display:none;" onchange="App.importBackup(event)" />
+      </label>
+      <button class="role-switch-btn" onclick="App.resetDatabase()" title="초기 샘플 데이터 상태로 초기화">🔄 초기 데이터 리셋</button>
+    </div>
+  </div>
+
+  <!-- 2. 상단 메인 헤더 -->
+  <header class="app-header">
+    <div class="brand-area" onclick="App.navigateToBoard('ALL')">
+      <div class="brand-logo">학</div>
+      <div class="brand-title">
+        <h1>학과별 복합 다중게시판 시스템</h1>
+        <p>공간별 다중게시판 · 5단계 역할 권한 제어 · 공간 간 접근 차단 · 데이터 영속성 보장</p>
+      </div>
+    </div>
+
+    <div class="header-actions" id="headerActions">
+      <!-- js/app.js에서 사용자 프로필, 내 글/댓글 관리, 알림 센터, 로그인/회원가입 버튼 렌더링 -->
+    </div>
+  </header>
+
+  <!-- 3. 메인 컨테이너 (좌측 사이드바 + 우측 본문 영역) -->
+  <div class="app-container">
+    <aside class="sidebar">
+      <!-- 운영 공간(학과) 선택 카드 -->
+      <div class="panel-card">
+        <div class="panel-title">
+          <span>🏛️ 운영 공간 (학과별 격리)</span>
+          <button class="btn btn-outline btn-sm" onclick="App.openCreateSpaceModal()">+ 공간 추가</button>
+        </div>
+        <div class="space-list" id="spaceListContainer"></div>
+      </div>
+
+      <!-- 선택된 공간의 다중게시판 목록 카드 -->
+      <div class="panel-card">
+        <div class="panel-title">
+          <span id="sidebarBoardTitle">📋 공간 내 다중게시판</span>
+          <button class="btn btn-outline btn-sm" id="btnAddBoardSidebar" style="display:none;" onclick="App.openBoardModal()">+ 게시판</button>
+        </div>
+        <div class="board-nav-list" id="boardListContainer"></div>
+      </div>
+
+      <!-- 현재 공간 내 사용자 역할 및 권한 안내 카드 -->
+      <div class="panel-card" id="myPermissionSummaryCard"></div>
+    </aside>
+
+    <!-- 우측 메인 화면 -->
+    <main class="main-content" id="mainContentArea">
+      <!-- js/app.js에서 목록 / 상세 / 작성 / 내활동 / 관리자센터 / 접근차단 화면 렌더링 -->
+    </main>
+  </div>
+
+  <!-- 4. 모달 다이얼로그 영역 -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal-box" id="modalContentBox"></div>
+  </div>
+
+  <!-- 5. 실시간 토스트 메시지 영역 -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- 스크립트 로드 -->
+  <script src="js/storage.js"></script>
+  <script src="js/service.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
